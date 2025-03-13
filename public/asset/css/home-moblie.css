@@ -1,0 +1,125 @@
+/*desktop*/
+.sidebar {
+    display: none;
+}
+
+.menu-button {
+    display: none;
+}
+
+/*sidebar*/
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 250px;
+    z-index: 999;
+    display: none;
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.228);
+    box-shadow: -10 0 10px rgba(0, 0, 0, 0.1);
+}
+.sidebar ul li {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 30px;
+    width: 100%;
+}
+
+.sidebar ul li img {
+    margin-top: 15px;
+    margin-left: 0px;
+    width: 30px;
+}
+
+/*viewing port on tablet */
+@media (max-width: 992px) {
+}
+
+/*mobile*/
+@media (max-width: 576px) {
+    body {
+        width: 100dvh;
+    }
+    /*header-banner*/
+    .header-banner img {
+        width: 100%;
+        object-fit: cover;
+    }
+    .header-one {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 70px;
+        width: 100vh;
+    }
+    .header-one .header-child-one {
+        display: flex;
+        font-size: 10px;
+        gap: 10px;
+        justify-content: center;
+        align-content: center;
+    }
+    .header-one .header-child-one img {
+        width: 20px;
+    }
+    /*search search*/
+    .header-search {
+        height: 60px;
+    }
+
+    .header-search .header-search-logo img {
+        width: 20px;
+    }
+
+    .header-search .header-search-section .search-input {
+        width: 100px;
+    }
+    .header-search .header-search-section .search-input img {
+        width: 30px;
+    }
+    .header-search .header-search-section .search-input input {
+        width: 70px;
+    }
+    /*slider*/
+    .slider-full {
+        display: flex;
+        flex-direction: column;
+        justify-content: centers;
+        place-items: center;
+    }
+    .slider-full .slider-profile .profile-image .p1 {
+        font-size: 20px;
+        text-align: center;
+    }
+    .slider-full .slider-profile .profile-image .p2 {
+        font-size: 14px;
+    }
+    .slider-full .slider-banner-one {
+        justify-content: center;
+        place-items: center;
+        width: 300px;
+    }
+    .slider-full .slider-banner-one img {
+        width: 300px;
+    }
+    .green-line .green-line-main {
+        width: 250px;
+    }
+}
+
+@media (max-width: 800px) {
+    .hideOnMobile {
+        display: none;
+    }
+    .menu-button {
+        display: block;
+    }
+}
+
+@media (max-width: 400px) {
+    .sidebar {
+        width: 100%;
+    }
+}

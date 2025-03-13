@@ -1,0 +1,36 @@
+/*viewing port on tablet */
+@media (max-width: 992px) {
+}
+
+/*mobile*/
+@media (max-width: 576px) {
+    body {
+        width: 100dvh;
+    }
+    .upload-item-content{
+        padding: 20px;
+        width: 310px;
+    }
+    .upload-item-content .upload-item-body{
+        width: 300px;
+    }
+    .upload-item-content .upload-item-body input{
+        width: 270px;
+    }
+    .upload-item-content .upload-item-body select{
+        width: 270px;
+    }
+    .upload-item-content .upload-item-body textarea{
+        width: 270px;
+    }
+    .upload-item-content .upload-item-body button{
+        width: 270px;
+    }
+
+}
+
+@media (max-width: 800px) {
+}
+
+@media (max-width: 400px) {
+}
