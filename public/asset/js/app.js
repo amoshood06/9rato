@@ -1,3 +1,12 @@
+document.addEventListener("DOMContentLoaded", function () {
+    const menuButton = document.querySelector(".menu-button");
+    const sidebar = document.querySelector(".sidebar");
+
+    menuButton.addEventListener("click", function () {
+        sidebar.classList.toggle("active");
+    });
+});
+
 function showSidebar(){
     const sidebar = document.querySelector('.sidebar')
     sidebar.style.display = 'flex'

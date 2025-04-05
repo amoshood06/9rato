@@ -12,7 +12,7 @@
         <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
             <!-- Header -->
             <div class="p-4 md:p-6">
-                <h2 class="text-xl font-semibold text-gray-800">Swap History</h2>
+                <h2 class="text-xl font-semibold text-gray-800">Trade History</h2>
             </div>
 
             <!-- Table Header - Hidden on mobile, visible on tablet/desktop -->

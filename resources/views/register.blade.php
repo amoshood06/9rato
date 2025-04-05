@@ -3,133 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="{{asset('./asset/image/Frame.svg')}}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('./asset/image/Frame.svg') }}" type="image/x-icon">
+    <title>9rato - Registration</title>
+    <!-- Tailwind CSS -->
     @vite('resources/css/app.css')
-    <title>Registration</title>
-    <script>
-    const states = {
-        nigeria: [
-            { name: "Lagos", cities: ["Ikeja", "Surulere", "Lekki"] },
-            { name: "Abuja", cities: ["Gwarimpa", "Maitama", "Asokoro"] },
-            { name: "Rivers", cities: ["Port Harcourt", "Obio Akpor", "Eleme"] }
-        ],
-        ghana: [
-            { name: "Greater Accra", cities: ["Accra", "Tema", "Madina"] },
-            { name: "Ashanti", cities: ["Kumasi", "Obuasi", "Ejisu"] },
-            { name: "Northern", cities: ["Tamale", "Yendi", "Savelugu"] }
-        ]
-    };
-
-    const currencies = {
-        nigeria: "₦",
-        ghana: "₵"
-    };
-
-    function updateStates() {
-        let country = document.getElementById("country").value;
-        let stateDropdown = document.getElementById("state");
-        let cityDropdown = document.getElementById("city");
-        let currencyDropdown = document.getElementById("currency");
-
-        stateDropdown.innerHTML = '<option value="">Select State</option>';
-        cityDropdown.innerHTML = '<option value="">Select City</option>';
-        currencyDropdown.innerHTML = '<option value="">Select Currency</option>';
-
-        if (states[country]) {
-            states[country].forEach(state => {
-                let option = document.createElement("option");
-                option.value = state.name.toLowerCase();
-                option.textContent = state.name;
-                stateDropdown.appendChild(option);
-            });
-
-            let currencyOption = document.createElement("option");
-            currencyOption.value = currencies[country];
-            currencyOption.textContent = currencies[country];
-            currencyDropdown.appendChild(currencyOption);
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
         }
-    }
-
-    function updateCities() {
-        let country = document.getElementById("country").value;
-        let state = document.getElementById("state").value;
-        let cityDropdown = document.getElementById("city");
-
-        cityDropdown.innerHTML = '<option value="">Select City</option>';
-
-        if (states[country]) {
-            let selectedState = states[country].find(s => s.name.toLowerCase() === state);
-            if (selectedState) {
-                selectedState.cities.forEach(city => {
-                    let option = document.createElement("option");
-                    option.value = city.toLowerCase();
-                    option.textContent = city;
-                    cityDropdown.appendChild(option);
-                });
-            }
+        .card {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-radius: 0.5rem;
+            background-color: white;
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
-    }
-    </script>
-    <link rel="stylesheet" href="{{asset('./asset/toast/toastr.min.css')}}">
-    <link rel="shortcut icon" href="{{asset('./asset/image/logo.png')}}" type="image/x-icon">
-    <script>
-        function togglePassword() {
-            const passwordInput = document.getElementById('password');
-            const eyeIcon = document.getElementById('eyeIcon');
-            const eyeOffIcon = document.getElementById('eyeOffIcon');
-            
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                eyeIcon.classList.add('hidden');
-                eyeOffIcon.classList.remove('hidden');
-            } else {
-                passwordInput.type = 'password';
-                eyeIcon.classList.remove('hidden');
-                eyeOffIcon.classList.add('hidden');
-            }
-        }
-    </script>
+    </style>
 </head>
-<body>
+<body class="bg-gray-50">
     <div class="grid min-h-screen md:grid-cols-2">
-        <!-- Left Column -->
+        <!-- Left Column - Marketing Content -->
         <div class="relative hidden bg-[#005B49] p-8 text-white md:block">
-            <div class="space-y-15">
-                <p class="text-sm text-zinc-400"><img src="./asset/image/logo.png" class="w-24" alt=""></p>
+            <div class="space-y-8 flex flex-col h-full">
+                <div>
+                    <p class="text-sm">
+                        <div class="w-24 h-24 bg-white/10 rounded-lg flex items-center justify-center text-2xl font-bold"><img src="{{ asset('./asset/image/Frame.svg') }}" alt=""></div>
+                    </p>
+                </div>
                 
-                <div class="relative h-[60%]">
-                    <img 
+                <div class="relative flex-grow flex items-center justify-center">
+                    <div class="w-80 h-80 bg-white/10 rounded-lg flex items-center justify-center text-white/50 text-lg">
+                        <img 
                         src="{{asset('./asset/image/slider.svg')}}"
                         alt="Credit card preview"
                         class="object-contain w-full h-full"
                     />
+                    </div>
                 </div>
 
-                <div class="space-y-1">
-    <h1 class="text-3xl font-semibold tracking-tight">
-        Join 9rato –<br />The Ultimate Platform for Trading, Bidding, Rent & Swapping!
-    </h1>
-    <p class="text-white font-semibold leading-[30px]">
-        Sign up now to explore seamless item trading, bidding, swapping, and selling. With 9rato, you get secure transactions, a user-friendly marketplace, and admin-approved deals.  
-        🔹 Easy registration  
-        🔹 Secure wallet payments  
-        🔹 Transparent & verified transactions  
-
-        ✅ Create your account now and start trading with confidence! 🚀  
-    </p>
-</div>
-
+                <div class="space-y-4">
+                    <h1 class="text-3xl font-semibold tracking-tight">
+                        Join 9rato –<br />The Ultimate Platform for Trading, Bidding, Rent & Swapping!
+                    </h1>
+                    <p class="text-white leading-relaxed">
+                        Sign up now to explore seamless item trading, bidding, swapping, and selling. With 9rato, you get secure transactions, a user-friendly marketplace, and admin-approved deals.
+                        <br /><br />
+                        🔹 Easy registration<br />
+                        🔹 Secure wallet payments<br />
+                        🔹 Transparent & verified transactions<br />
+                        <br />
+                        ✅ Create your account now and start trading with confidence! 🚀
+                    </p>
+                </div>
             </div>
         </div>
 
-        <!-- Right Column -->
+        <!-- Right Column - Registration Form -->
         <div class="flex items-center justify-center p-8">
             <div class="w-full max-w-lg space-y-8">
                 <!-- Logo and Welcome -->
                 <div class="space-y-2">
                     <div class="flex items-center gap-2">
                         <div class="h-8 w-8 rounded-full bg-[#005B49] p-2">
-                            <span class="block text-center text-sm font-bold text-white"><img src="./asset/image/Frame.svg" alt=""></span>
+                            <span class="block text-center text-sm font-bold text-white">9</span>
                         </div>
                         <h2 class="text-xl font-semibold">9rato</h2>
                     </div>
@@ -139,172 +76,199 @@
                 </div>
 
                 <!-- Registration Form -->
-                <form id="registerForm" class="space-y-4">
-                    <div class="space-y-2">
-                        <label for="full_Name" class="text-sm font-medium">
-                            Full Name
-                        </label>
-                        <input name="full_name" id="full_name" required
-                            type="text" 
-                            placeholder="John Doe"
-                            class="w-full rounded-md border border-gray-200 px-3 py-2 text-sm outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20"
-                        >
+                <div class="card p-6">
+                    <div class="mb-6">
+                        <h2 class="text-xl font-semibold">Create an account</h2>
+                        <p class="text-gray-500 text-sm">Enter your email below to create your account</p>
                     </div>
-
-                    <div class="space-y-2">
-                        <label for="email" class="text-sm font-medium">
-                            Email
-                        </label>
-                        <input name="email"
-                            type="email" 
-                            id="email" 
-                            placeholder="johndoe@gmail.com"
-                            class="w-full rounded-md border border-gray-200 px-3 py-2 text-sm outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20"
-                            required
-                        >
-                    </div>
-
-                    <div class="space-y-2">
-                        <label for="phone" class="text-sm font-medium">
-                            Phone Number
-                        </label>
-                        <input name="phone"
-                            type="phone" 
-                            id="phone" 
-                            placeholder="+234 123 456 7890"
-                            class="w-full rounded-md border border-gray-200 px-3 py-2 text-sm outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20"
-                            required
-                        >
-                    </div>
-
-                    <div class="space-y-2">
-                        <label for="address" class="text-sm font-medium">
-                            Address
-                        </label>
-                        <input name="address"
-                            type="text" 
-                            id="address" 
-                            placeholder="123 Main St"
-                            class="w-full rounded-md border border-gray-200 px-3 py-2 text-sm outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20"
-                            required
-                        >
-                    </div>
-
-                    <div class="space-y-2">
-                        <select  class="w-full rounded-md border border-gray-200 px-3 py-2 text-sm outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20"  name="country" id="country" onchange="updateStates()" required>
-                            <option value="">Select Country</option>
-                            <option value="nigeria">Nigeria</option>
-                            <option value="ghana">Ghana</option>
-                        </select>
-                    </div>
-
-                    <div class="grid gap-4 sm:grid-cols-2">
+                    
+                    <form id="registrationForm" class="space-y-4">
                         <div class="space-y-2">
-                            <label for="state" class="text-sm font-medium">State</label>
-                            <select name="state" id="state" 
-                                class="w-full rounded-md border border-gray-200 px-3 py-2 text-sm outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" 
-                                onchange="updateCities()">
-                                <option value="">Select State</option>
-                            </select>
-                        </div>
-
-                        <div class="space-y-2">
-                            <label for="city" class="text-sm font-medium">City</label>
-                            <select name="city" id="city" 
-                                class="w-full rounded-md border border-gray-200 px-3 py-2 text-sm outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20">
-                                <option value="">Select City</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="space-y-2">
-                        <label for="currency" class="text-sm font-medium">Currency</label>
-                        <select name="currency" id="currency" 
-                            class="w-full rounded-md border border-gray-200 px-3 py-2 text-sm outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20">
-                            <option value="">Select Currency</option>
-                        </select>
-                    </div>
-
-                    <div class="space-y-2">
-                        <label for="role" class="text-sm font-medium">role</label>
-                        <select name="role" id="role" 
-                            class="w-full rounded-md border border-gray-200 px-3 py-2 text-sm outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20">
-                            <option value="">Select Role</option>
-                            <option value="user">User</option>
-                            <option value="vendor">Vendor</option>
-                            <option value="rider">Rider</option>
-                        </select>
-                    </div>
-                    <div class="space-y-2">
-                        <label for="password" class="text-sm font-medium">
-                            Password
-                        </label>
-                        <div class="relative">
-                            <input name="password" 
-                                id="password" 
-                                type="password"
-                                class="w-full rounded-md border border-gray-200 px-3 py-2 text-sm outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20"
+                            <label for="email" class="block text-sm font-medium">Email</label>
+                            <input 
+                                id="email" 
+                                type="email" 
+                                placeholder="johndoe@example.com"
+                                class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
                                 required
-                            >
-                            <button type="button" onclick="togglePassword()" class="absolute right-3 top-1/2 transform -translate-y-1/2">
-                                <span id="eyeIcon" class="hidden">👁️</span>
-                                <span id="eyeOffIcon">🙈</span>
-                            </button>
+                            />
+                        </div>
+
+                        <div class="space-y-2">
+                            <label for="password" class="block text-sm font-medium">Password</label>
+                            <div class="relative">
+                                <input 
+                                    id="password" 
+                                    type="password"
+                                    class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+                                    required
+                                />
+                                <button 
+                                    type="button" 
+                                    id="togglePassword"
+                                    class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 bg-[#005B49]:text-gray-700"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="eyeIcon" style="display: none;">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="eyeOffIcon">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <button 
+                            type="submit" 
+                            class="w-full py-2 px-4 bg-[#005B49] text-white font-medium rounded-md transition-colors"
+                            id="submitButton"
+                        >
+                            Create account
+                        </button>
+                    </form>
+
+                    <div class="relative my-6">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-300"></div>
+                        </div>
+                        <div class="relative flex justify-center text-xs uppercase">
+                            <span class="bg-white px-2 text-gray-500">
+                                Or continue with
+                            </span>
                         </div>
                     </div>
 
-                    <div class="space-y-4">
-                        <button 
-                            type="submit"
-                            class="w-full py-3 text-sm font-medium text-white bg-[#005B49] rounded-md hover:bg-[#FA9A16]"
-                        >
-                            Register
-                        </button>
-                    </div>
+                    <button 
+                        type="button" 
+                        class="w-full py-2 px-4 border border-gray-300 rounded-md flex items-center justify-center text-sm font-medium #004A3B:bg-gray-50 transition-colors"
+                        id="googleSignIn"
+                    >
+                        <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24">
+                            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                        </svg>
+                        Google
+                    </button>
 
-                </form>
+                    <div class="mt-6 text-center">
+                        <p class="text-sm text-gray-500">
+                            Already have an account?
+                            <a href="{{url('login')}}" class="text-primary #004A3B:underline ml-1">
+                                Sign in
+                            </a>
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="./asset/toast/toastr.min.js"></script>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-4 right-4 bg-[#005B49] text-white px-4 py-2 rounded-lg shadow-lg transform transition-transform duration-300 translate-x-full">
+        <div class="flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span id="toastMessage">Success message here</span>
+        </div>
+    </div>
+
     <script>
-        $(document).ready(function () {
-            $("#registerForm").on("submit", function (e) {
-                e.preventDefault();  // Prevent the form from submitting the traditional way
+        // Password Toggle
+        const togglePassword = document.getElementById('togglePassword');
+        const password = document.getElementById('password');
+        const eyeIcon = document.getElementById('eyeIcon');
+        const eyeOffIcon = document.getElementById('eyeOffIcon');
 
-                var formData = $(this).serialize();  // Serialize form data
-
-                $.ajax({
-                    type: "POST",
-                    url: "process_register.php",  // Your PHP file to handle registration
-                    data: formData,
-                    dataType: "json",  // Expect JSON response
-                    success: function (response) {
-                        toastr.options = {
-                            "closeButton": true,
-                            "progressBar": true,
-                            "positionClass": "toast-top-right",
-                            "timeOut": "3000"
-                        };
-
-                        if (response.status == "success") {
-                            toastr["success"](response.message, "Registration Successful");
-                            setTimeout(function () {
-                                window.location.href = "login.php";  // Redirect after success
-                            }, 2000);
-                        } else {
-                            toastr["error"](response.message, "Registration Failed");
-                        }
-                    },
-                    error: function () {
-                        toastr["error"]("Something went wrong!", "Error");
-                    }
-                });
-            });
+        togglePassword.addEventListener('click', function() {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            
+            if (type === 'text') {
+                eyeIcon.style.display = 'block';
+                eyeOffIcon.style.display = 'none';
+            } else {
+                eyeIcon.style.display = 'none';
+                eyeOffIcon.style.display = 'block';
+            }
         });
+
+        // Form Submission
+        const form = document.getElementById('registrationForm');
+        const submitButton = document.getElementById('submitButton');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+
+        form.addEventListener('submit', function(e) {
+            e.prevent#005B49();
+            
+            // Show loading state
+            submitButton.textContent = 'Creating account...';
+            submitButton.disabled = true;
+            
+            // Simulate API call
+            setTimeout(function() {
+                // Show success message
+                showToast('Your account has been created successfully!', 'success');
+                
+                // Reset form
+                form.reset();
+                
+                // Reset button
+                submitButton.textContent = 'Create account';
+                submitButton.disabled = false;
+                
+                // Redirect (uncomment to enable)
+                // window.location.href = 'login.html';
+            }, 1500);
+        });
+
+        // Google Sign In
+        const googleButton = document.getElementById('googleSignIn');
+        
+        googleButton.addEventListener('click', function() {
+            // Show loading state
+            googleButton.textContent = 'Signing in with Google...';
+            googleButton.disabled = true;
+            
+            // Simulate API call
+            setTimeout(function() {
+                // Show success message
+                showToast('You\'ve successfully signed in with Google!', 'success');
+                
+                // Reset button
+                googleButton.innerHTML = '<svg class="w-5 h-5 mr-2" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>Google';
+                googleButton.disabled = false;
+                
+                // Redirect (uncomment to enable)
+                // window.location.href = 'dashboard.html';
+            }, 1500);
+        });
+
+        // Toast Function
+        function showToast(message, type = 'success') {
+            toastMessage.textContent = message;
+            
+            // Set color based on type
+            if (type === 'success') {
+                toast.classList.remove('bg-red-500');
+                toast.classList.add('bg-green-500');
+            } else {
+                toast.classList.remove('bg-green-500');
+                toast.classList.add('bg-red-500');
+            }
+            
+            // Show toast
+            toast.classList.remove('translate-x-full');
+            
+            // Hide toast after 3 seconds
+            setTimeout(function() {
+                toast.classList.add('translate-x-full');
+            }, 3000);
+        }
     </script>
 </body>
-
 </html>
