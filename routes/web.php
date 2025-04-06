@@ -29,3 +29,11 @@ Route::get('user/swapping/index', function () {
 Route::get('user/profile/index', function () {
     return view('user/profile/index');
 })->name('profile');
+
+Route::get('user/wallet/index', function () {
+    return view('user/wallet/index');
+})->name('wallet');
+
+Route::get('user/complain/index', function () {
+    return view('user/complain/index');
+})->name('complain');
