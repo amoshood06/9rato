@@ -37,3 +37,35 @@ Route::get('user/wallet/index', function () {
 Route::get('user/complain/index', function () {
     return view('user/complain/index');
 })->name('complain');
+
+Route::get('mail/verifyaccount', function () {
+    return view('mail/verifyaccount');
+})->name('verifyaccount');
+
+Route::get('mail/forgot-password', function () {
+    return view('mail/forgot-password');
+})->name('forgot-password');
+
+Route::get('emailtemplates/trade-confirmation', function () {
+    return view('emailtemplates/trade-confirmation');
+})->name('trade-confirmation');
+
+Route::get('emailtemplates/swap-confirmation', function () {
+    return view('emailtemplates/swap-confirmation');
+})->name('swap-confirmation');
+
+Route::get('emailtemplates/purchase-confirmation', function () {
+    return view('emailtemplates/purchase-confirmation');
+})->name('purchase-confirmation');
+
+Route::get('emailtemplates/password-reset', function () {
+    return view('emailtemplates/password-reset');
+})->name('password-reset');
+
+Route::get('emailtemplates/bid-confirmation', function () {
+    return view('emailtemplates/bid-confirmation');
+})->name('bid-confirmation');
+
+Route::get('emailtemplates/account-verification', function () {
+    return view('emailtemplates/account-verification');
+})->name('account-verification');
