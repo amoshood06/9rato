@@ -25,3 +25,7 @@ Route::get('user/product/index', function () {
 Route::get('user/swapping/index', function () {
     return view('user/swapping/index');
 })->name('swapping');
+
+Route::get('user/profile/index', function () {
+    return view('user/profile/index');
+})->name('profile');
