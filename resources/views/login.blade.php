@@ -133,7 +133,7 @@
                 <div class="space-y-4">
                     <div class="text-center text-sm">
                         Don't have an account?
-                        <a href="{{url('register')}}" class="font-semibold text-[#00372B] hover:underline">
+                        <a href="{{ route('register') }}" class="font-semibold text-[#00372B] hover:underline">
                             Sign Up
                         </a>
                     </div>

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="{{ asset('./asset/image/Frame.svg') }}" type="image/x-icon">
     <title>9rato - Registration</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Tailwind CSS -->
     @vite('resources/css/app.css')
     <!-- Google Fonts -->
@@ -84,9 +85,19 @@
                     
                     <form id="registrationForm" class="space-y-4">
                         <div class="space-y-2">
+                            <label for="name" class="block text-sm font-medium">Name</label>
+                            <input 
+                                id="name" name="name"
+                                type="name" 
+                                placeholder="John Doe"
+                                class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+                                required
+                            />
+                        </div>
+                        <div class="space-y-2">
                             <label for="email" class="block text-sm font-medium">Email</label>
                             <input 
-                                id="email" 
+                                id="email" name="email"
                                 type="email" 
                                 placeholder="johndoe@example.com"
                                 class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
@@ -98,7 +109,32 @@
                             <label for="password" class="block text-sm font-medium">Password</label>
                             <div class="relative">
                                 <input 
-                                    id="password" 
+                                    id="password" name="password"
+                                    type="password"
+                                    class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+                                    required
+                                />
+                                <button 
+                                    type="button" 
+                                    id="togglePassword"
+                                    class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 bg-[#005B49]:text-gray-700"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="eyeIcon" style="display: none;">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="eyeOffIcon">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label for="confirm_password" class="block text-sm font-medium">Confirm Password</label>
+                            <div class="relative">
+                                <input 
+                                    id="confirm_password" name="password_confirmation"
                                     type="password"
                                     class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
                                     required
@@ -156,7 +192,7 @@
                     <div class="mt-6 text-center">
                         <p class="text-sm text-gray-500">
                             Already have an account?
-                            <a href="{{url('login')}}" class="text-primary #004A3B:underline ml-1">
+                            <a href="{{ route('login') }}" class="text-primary #004A3B:underline ml-1">
                                 Sign in
                             </a>
                         </p>
@@ -196,35 +232,56 @@
             }
         });
 
-        // Form Submission
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         const form = document.getElementById('registrationForm');
         const submitButton = document.getElementById('submitButton');
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toastMessage');
 
-        form.addEventListener('submit', function(e) {
-            e.prevent#005B49();
-            
-            // Show loading state
-            submitButton.textContent = 'Creating account...';
-            submitButton.disabled = true;
-            
-            // Simulate API call
-            setTimeout(function() {
-                // Show success message
-                showToast('Your account has been created successfully!', 'success');
-                
-                // Reset form
-                form.reset();
-                
-                // Reset button
-                submitButton.textContent = 'Create account';
-                submitButton.disabled = false;
-                
-                // Redirect (uncomment to enable)
-                // window.location.href = 'login.html';
-            }, 1500);
+        form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+
+        submitButton.textContent = 'Creating account...';
+        submitButton.disabled = true;
+
+        fetch('/register', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'X-Requested-With': 'XMLHttpRequest', // Laravel expects this
+                'Accept': 'application/json',
+            },
+        })
+        .then(async (response) => {
+            if (!response.ok) {
+                // Extract error message
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'An error occurred');
+            }
+
+            // Handle success
+            return response.json();
+        })
+        .then((data) => {
+            // Show success toast
+            showToast(data.message, 'success');
+
+            // Reset form
+            form.reset();
+        })
+        .catch((error) => {
+            // Show error toast
+            showToast(error.message, 'error');
+        })
+        .finally(() => {
+            // Reset button state
+            submitButton.textContent = 'Create account';
+            submitButton.disabled = false;
         });
+    });
 
         // Google Sign In
         const googleButton = document.getElementById('googleSignIn');

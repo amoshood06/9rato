@@ -37,7 +37,7 @@
                             onclick="hideSidebar()" class="hover:bg-green-100 outline outline-1"></li>
                     <li class="font-bold hover:bg-gray-400 w-full"><a href="">Home</a></li>
                     <li class="font-bold hover:bg-gray-400 w-full"><a href="" class="font-bold">Wallet</a></li>
-                    <li class="font-bold hover:bg-gray-400 w-full"><a href="" class="font-bold">Account</a></li>
+                    <li class="font-bold hover:bg-gray-400 w-full"><a href="{{ route('login') }}" class="font-bold">Account</a></li>
                 </ul>
             </nav>
         </div>
@@ -64,7 +64,7 @@
             </button>
         </div>
         <div class=" hideOnMobile search-account-section flex jusfity-center items-center font-semibold gap-[20px]">
-            <a href="{{ url('login.php') }}" class="hideOnMobile">
+            <a href="{{ route('login') }}" class="hideOnMobile">
                 <div class="account-text text-black flex gap-[8px] justify-center items-center">
                     <img src="{{ asset('./asset/image/icons8_customer_64px.png') }}" alt="" class="w-[40px]">
                     <p>Acount</p>
