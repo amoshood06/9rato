@@ -1,5 +1,11 @@
 <?php
 
+use App\Http\Controllers\Auth\ForgottenPasswordController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Auth\VendorRegisterController;
+use App\Http\Controllers\Auth\VerifyOTPController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -71,3 +77,16 @@ Route::get('emailtemplates/bid-confirmation', function () {
 Route::get('emailtemplates/account-verification', function () {
     return view('emailtemplates/account-verification');
 })->name('account-verification');
+
+
+// Endpoints
+// Auth
+Route::group(['prefix' => 'auth', 'middleware' => 'gues'], function () {
+
+    Route::post('/register', RegisterController::class);
+    Route::post('/login', LoginController::class);
+    Route::post('/forgotten-password', ForgottenPasswordController::class);
+    Route::post('/verify-otp', VerifyOTPController::class);
+    Route::post('/reset-password', ResetPasswordController::class);
+    Route::post('/vendor', VendorRegisterController::class);
+});
