@@ -35,7 +35,7 @@
                 <ul class="flex flex-col gap-[5px] w-full ">
                     <li><img src="{{ asset('./asset/image/icons8_delete_26px.png') }}" alt=""
                             onclick="hideSidebar()" class="hover:bg-green-100 outline outline-1"></li>
-                    <li class="font-bold hover:bg-gray-400 w-full"><a href="">Home</a></li>
+                    <li class="font-bold hover:bg-gray-400 w-full"><a href="{{ route('home') }}">Home</a></li>
                     <li class="font-bold hover:bg-gray-400 w-full"><a href="" class="font-bold">Wallet</a></li>
                     <li class="font-bold hover:bg-gray-400 w-full"><a href="{{ route('login') }}" class="font-bold">Account</a></li>
                 </ul>
@@ -45,7 +45,7 @@
     <!--header search-->
     <div
         class="header-search flex bg-[#D8D8D8] justify-center items-center h-[80px] sm:gap-[90px] gap-[30px] w-full z-40  top-0 sticky shadow-md">
-        <a href="{{ url('index.php') }}">
+        <a href="{{ route('home') }}">
             <div class="header-search-logo flex justify-center items-center gap-[5px]">
                 <img src="{{ asset('./asset/image/Frame.svg') }}" alt="" class="w-[35px]">
                 <p class="text-[#F5CB03] font-bold text-[20px]">9rato</p>
@@ -64,12 +64,24 @@
             </button>
         </div>
         <div class=" hideOnMobile search-account-section flex jusfity-center items-center font-semibold gap-[20px]">
+            @guest
             <a href="{{ route('login') }}" class="hideOnMobile">
                 <div class="account-text text-black flex gap-[8px] justify-center items-center">
                     <img src="{{ asset('./asset/image/icons8_customer_64px.png') }}" alt="" class="w-[40px]">
                     <p>Acount</p>
                 </div>
             </a>
+            @endguest
+
+            @auth
+            <a href="{{ route('user.profile') }}" class="hideOnMobile">
+                <div class="account-text text-black flex gap-[8px] justify-center items-center">
+                    <img src="{{ asset('./asset/image/icons8_customer_64px.png') }}" alt="" class="w-[40px]">
+                    <p>Acount</p>
+                </div>
+            </a>
+            @endauth
+            
             <a href="" class="hideOnMobile">
                 <div class="account-help text-black flex gap-[8px] justify-center items-center">
                     <img src="{{ asset('./asset/image/icons8_help_100px.png') }}" alt="" class="w-[40px]">
@@ -81,7 +93,7 @@
 
     <!--slider-->
     <div class="slider-full p-[30px] flex justify-center items-center gap-[15px] mb-[90px] mt-[30px]">
-        <div class="slider-menu hideOnMobile w-[285px] bg-white p-[10px] rounded-[30px]">
+        <div class="slider-menu hideOnMobile w-40 bg-white p-[10px] rounded-[30px]">
             <div class="slider-menu-link w-full hover:bg-gray-400 hover:text-white p-[20px] rounded-[20px]">
                 <a href="" class="flex gap-3 font-bold">
                     <img src="{{ asset('./asset/image/icons8_home_30px.png') }}" alt="" class="w-[26px]">

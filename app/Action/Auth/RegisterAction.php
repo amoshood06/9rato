@@ -2,6 +2,7 @@
 
 namespace App\Action\Auth;
 
+use App\Events\UserRegistered;
 use App\Models\User;
 
 class RegisterAction{

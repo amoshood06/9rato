@@ -17,10 +17,8 @@ class AuthController extends Controller
         return view('register');
     }
 
-    public function register(RegisterRequest $request)
+    public function verify_account()
     {
-        return response()->json([
-            'message' => 'Your account has been created successfully!'
-        ], 201);
+        return view('mail.verifyaccount');
     }
 }

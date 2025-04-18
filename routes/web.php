@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\VendorRegisterController;
 use App\Http\Controllers\Auth\VerifyOTPController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -14,13 +15,19 @@ Route::get('/', function () {
 })->name('home');
 
 
+Route::group(['middleware' => 'guest'], function(){
+    Route::get('login', [AuthController::class, 'login_page'])->name('login');
+    Route::get('register', [AuthController::class, 'register'])->name('auth.register');
+});
 
-Route::get('login', [AuthController::class, 'login_page'])->name('login');
-Route::post('register', [AuthController::class, 'register'])->name('auth.register');
+Route::group(['middleware' => 'auth'], function(){
+    Route::get('verify-account', [AuthController::class, 'verify_account'])->name('auth.verify');
 
-Route::get('register', function () {
-    return view('register');
-})->name('register');
+    Route::group(['middleware' => 'isVerified'], function(){
+        Route::get('/profile', [ProfileController::class, 'view_profile'])->name('user.profile');
+    });
+});
+
 
 Route::get('user/index', function () {
     return view('user/index');
@@ -33,10 +40,6 @@ Route::get('user/product/index', function () {
 Route::get('user/swapping/index', function () {
     return view('user/swapping/index');
 })->name('swapping');
-
-Route::get('user/profile/index', function () {
-    return view('user/profile/index');
-})->name('profile');
 
 Route::get('user/wallet/index', function () {
     return view('user/wallet/index');
