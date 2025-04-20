@@ -74,7 +74,7 @@
             @endguest
 
             @auth
-            <a href="{{ route('user.profile') }}" class="hideOnMobile">
+            <a href="{{ route('user.dashboard') }}" class="hideOnMobile">
                 <div class="account-text text-black flex gap-[8px] justify-center items-center">
                     <img src="{{ asset('./asset/image/icons8_customer_64px.png') }}" alt="" class="w-[40px]">
                     <p>Acount</p>

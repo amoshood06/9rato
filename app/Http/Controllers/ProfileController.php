@@ -6,8 +6,18 @@ use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
-    public function view_profile()
+    public function dashboard()
     {
         return view('user.index');
+    }
+
+    public function view_profile()
+    {
+        return view('user.profile.index');
+    }
+
+    public function edit_profile()
+    {
+        return view('user.profile.edit');
     }
 }

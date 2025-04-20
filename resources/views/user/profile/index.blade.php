@@ -113,8 +113,8 @@
     <div class="text-white">
         <p class="text-sm">Wallet</p>
         <p class="text-2xl font-bold">
-            <span id="currencySymbol">N</span>
-            <span id="currentBalance">20,000</span>
+            <span id="" style="text-transform: uppercase">{{ Auth::user()->currency }}</span>
+            <span id="currentBalance">{{ Auth::user()->balance }}</span>
         </p>
     </div>
 
@@ -142,13 +142,24 @@
                 <div class="flex-grow overflow-y-auto">
                     <!-- User Profile -->
                     <div class="flex flex-col items-center my-6">
+                        @if(Auth::user()->image)
                         <div class="w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-lg">
-                            <img src="/placeholder.svg?height=80&width=80" alt="Profile" class="w-full h-full object-cover" />
+                            <img src="{{ asset('storage/'.Auth::user()->image) }}" alt="Profile" class="w-full h-full object-cover" />
                         </div>
+                        @else
+                        <div class="profile-image">
+                            <div id="profileImage" class="avatar-default">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                            </div>
+                        </div>
+                        @endif
                     </div>
 
                     <nav class="space-y-2 px-4">
-                        <a href="{{url('user/index')}}" class="block p-3 hover:bg-green-100 rounded-lg">Home</a>
+                        <a href="{{ route('user.dashboard') }}" class="block p-3 hover:bg-green-100 rounded-lg">Home</a>
                         <a href="" class="block p-3 hover:bg-green-100 rounded-lg">Deposit</a>
                         <a href="" class="block p-3 hover:bg-green-100 rounded-lg">Chat</a>
                         <a href="#" class="block p-3 hover:bg-green-100 rounded-lg">Sell</a>
@@ -158,7 +169,7 @@
                         <a href="#" class="block p-3 hover:bg-green-100 rounded-lg">Rent</a>
                         <a href="" class="block p-3 hover:bg-green-100 rounded-lg">Withdrawal</a>
                         <a href="" class="block p-3 hover:bg-green-100 rounded-lg">Complain</a>
-                        <a href="#" class="block p-3 bg-[#005B49] text-white rounded-lg">Profile</a>
+                        <a href="{{ route('profile.index') }}" class="block {{ Route::is('profile.index') ? 'bg-[#005B49] text-white' : '' }} p-3 rounded-lg">Profile</a>
                     </nav>
 
                     <!-- Quick Action Items - visible only on mobile -->
@@ -205,7 +216,7 @@
                         <h2 class="text-2xl font-bold text-[#005B49]">Profile</h2>
                         <p class="text-gray-600">View your profile information</p>
                     </div>
-                    <a href="profile-edit.html" class="py-2 px-4 bg-[#005B49] text-white rounded-md hover:bg-[#004a3b] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#005B49]">
+                    <a href="{{ route('profile.edit') }}" class="py-2 px-4 bg-[#005B49] text-white rounded-md hover:bg-[#004a3b] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#005B49]">
                         Edit Profile
                     </a>
                 </div>
@@ -215,6 +226,11 @@
                     <div class="p-6">
                         <!-- Profile Image -->
                         <div class="flex flex-col items-center space-y-4 mb-8">
+                            @if(Auth::user()->image)
+                            <div class="w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-lg">
+                                <img src="{{ asset('storage/'.Auth::user()->image) }}" alt="Profile" class="w-full h-full object-cover" />
+                            </div>
+                            @else
                             <div class="profile-image">
                                 <div id="profileImage" class="avatar-default">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -223,13 +239,23 @@
                                     </svg>
                                 </div>
                             </div>
-                            <h3 class="text-xl font-bold text-[#005B49]" id="profileName">John Doe</h3>
+                            @endif
+                            <h3 class="text-xl font-bold text-[#005B49]" id="profileName">{{ Auth::user()->name }}</h3>
+                            @if(Auth::user()->account_type == 'personal')
+                            <div id="businessBadge" class="business-badge">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                                Personal Account
+                            </div>
+                            @else
                             <div id="businessBadge" class="business-badge">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                 </svg>
                                 Business Account
                             </div>
+                            @endif
                         </div>
 
                         <!-- Personal Information Section -->
@@ -240,13 +266,13 @@
                                 <!-- Email -->
                                 <div>
                                     <div class="info-label">Email Address</div>
-                                    <div class="info-value" id="profileEmail">johndoe@example.com</div>
+                                    <div class="info-value" id="profileEmail">{{ Auth::user()->email }}</div>
                                 </div>
 
                                 <!-- Phone Number -->
                                 <div>
                                     <div class="info-label">Phone Number</div>
-                                    <div class="info-value" id="profilePhone">+234 812 345 6789</div>
+                                    <div class="info-value" id="profilePhone">{{ Auth::user()->phone ?? 'Not Provided' }}</div>
                                 </div>
                             </div>
                         </div>
@@ -259,47 +285,49 @@
                                 <!-- Country -->
                                 <div>
                                     <div class="info-label">Country</div>
-                                    <div class="info-value" id="profileCountry">Nigeria</div>
+                                    <div class="info-value" id="profileCountry">{{ Auth::user()->country ?? 'Not Provided' }}</div>
                                 </div>
 
                                 <!-- State/Province -->
                                 <div>
                                     <div class="info-label">State/Province</div>
-                                    <div class="info-value" id="profileState">Lagos</div>
+                                    <div class="info-value" id="profileState">{{ Auth::user()->state ?? 'Not Provided' }}</div>
                                 </div>
 
                                 <!-- City -->
                                 <div>
                                     <div class="info-label">City</div>
-                                    <div class="info-value" id="profileCity">Ikeja</div>
+                                    <div class="info-value" id="profileCity">{{ Auth::user()->city ?? 'Not Provided' }}</div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Business Information Section -->
-                        <div id="businessSection" class="info-card">
-                            <h3 class="text-lg font-semibold text-[#005B49] mb-4">Business Information</h3>
+                        @if(Auth::user()->account_type == 'business')
+                            <div id="businessSection" class="info-card">
+                                <h3 class="text-lg font-semibold text-[#005B49] mb-4">Business Information</h3>
 
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <!-- Business Name -->
-                                <div>
-                                    <div class="info-label">Business Name</div>
-                                    <div class="info-value" id="businessName">Doe Enterprises</div>
-                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <!-- Business Name -->
+                                    <div>
+                                        <div class="info-label">Business Name</div>
+                                        <div class="info-value" id="businessName">{{ Auth::user()->business_name }}</div>
+                                    </div>
 
-                                <!-- Business Type -->
-                                <div>
-                                    <div class="info-label">Business Type</div>
-                                    <div class="info-value" id="businessType">Retail</div>
-                                </div>
+                                    <!-- Business Type -->
+                                    <div>
+                                        <div class="info-label">Business Type</div>
+                                        <div class="info-value" id="businessType">{{ Auth::user()->business_type }}</div>
+                                    </div>
 
-                                <!-- Tax ID -->
-                                <div>
-                                    <div class="info-label">Tax ID / Business Registration Number</div>
-                                    <div class="info-value" id="taxId">BN-12345678</div>
+                                    <!-- Tax ID -->
+                                    <div>
+                                        <div class="info-label">Tax ID / Business Registration Number</div>
+                                        <div class="info-value" id="taxId">{{ Auth::user()->business_reg_no }}</div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -387,53 +415,7 @@
 
     // In a real application, you would fetch this data from your backend
     // For demonstration purposes, we're using mock data
-    document.addEventListener('DOMContentLoaded', function() {
-        // Check if user has a profile image
-        const hasProfileImage = false; // This would be determined by your backend
-
-        if (hasProfileImage) {
-            const profileImage = document.getElementById('profileImage');
-            profileImage.className = '';
-            profileImage.style.backgroundImage = 'url(/placeholder.svg?height=96&width=96)';
-        }
-
-        // Check if user has a business account
-        const isBusinessAccount = true; // This would be determined by your backend
-
-        if (!isBusinessAccount) {
-            document.getElementById('businessBadge').style.display = 'none';
-            document.getElementById('businessSection').style.display = 'none';
-        }
-
-        // Load user data
-        // In a real application, this would come from your backend
-        const userData = {
-            name: 'John Doe',
-            email: 'johndoe@example.com',
-            phone: '+234 812 345 6789',
-            country: 'Nigeria',
-            state: 'Lagos',
-            city: 'Ikeja',
-            business: {
-                name: 'Doe Enterprises',
-                type: 'Retail',
-                taxId: 'BN-12345678'
-            }
-        };
-
-        // Populate the profile information
-        document.getElementById('profileName').textContent = userData.name;
-        document.getElementById('profileEmail').textContent = userData.email;
-        document.getElementById('profilePhone').textContent = userData.phone;
-        document.getElementById('profileCountry').textContent = userData.country;
-        document.getElementById('profileState').textContent = userData.state;
-        document.getElementById('profileCity').textContent = userData.city;
-
-        if (isBusinessAccount) {
-            document.getElementById('businessName').textContent = userData.business.name;
-            document.getElementById('businessType').textContent = userData.business.type;
-            document.getElementById('taxId').textContent = userData.business.taxId;
-        }
+    
     });
 </script>
 </body>

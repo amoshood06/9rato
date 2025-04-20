@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\VendorRegisterController;
 use App\Http\Controllers\Auth\VerifyOTPController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -17,21 +18,20 @@ Route::get('/', function () {
 
 Route::group(['middleware' => 'guest'], function(){
     Route::get('login', [AuthController::class, 'login_page'])->name('login');
-    Route::get('register', [AuthController::class, 'register'])->name('auth.register');
+    Route::get('register', [AuthController::class, 'register_page'])->name('auth.register');
 });
 
 Route::group(['middleware' => 'auth'], function(){
     Route::get('verify-account', [AuthController::class, 'verify_account'])->name('auth.verify');
 
     Route::group(['middleware' => 'isVerified'], function(){
-        Route::get('/profile', [ProfileController::class, 'view_profile'])->name('user.profile');
+        Route::get('/user-dashboard', [ProfileController::class, 'dashboard'])->name('user.dashboard');
+        Route::get('profile/settings', [ProfileController::class, 'view_profile'])->name('profile.index');
+        Route::get('profile/edit', [ProfileController::class, 'edit_profile'])->name('profile.edit');
+        Route::get('/wallet', [WalletController::class, 'index'])->name('user.wallet');
     });
 });
 
-
-Route::get('user/index', function () {
-    return view('user/index');
-})->name('index');
 
 Route::get('user/product/index', function () {
     return view('user/product/index');
@@ -41,9 +41,6 @@ Route::get('user/swapping/index', function () {
     return view('user/swapping/index');
 })->name('swapping');
 
-Route::get('user/wallet/index', function () {
-    return view('user/wallet/index');
-})->name('wallet');
 
 Route::get('user/complain/index', function () {
     return view('user/complain/index');

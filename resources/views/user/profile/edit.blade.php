@@ -155,8 +155,8 @@
         <div class="text-white">
             <p class="text-sm">Wallet</p>
             <p class="text-2xl font-bold">
-                <span id="currencySymbol">N</span>
-                <span id="currentBalance">20,000</span>
+                <span id="" style="text-transform: uppercase">{{ Auth::user()->currency }}</span>
+                <span id="currentBalance">{{ Auth::user()->balance }}</span>
             </p>
         </div>
 
@@ -184,13 +184,24 @@
                     <div class="flex-grow overflow-y-auto">
                         <!-- User Profile -->
                         <div class="flex flex-col items-center my-6">
+                            @if(Auth::user()->image)
                             <div class="w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-lg">
-                                <img src="/placeholder.svg?height=80&width=80" alt="Profile" class="w-full h-full object-cover" />
+                                <img src="{{ asset('storage/'.Auth::user()->image) }}" alt="Profile" class="w-full h-full object-cover" />
                             </div>
+                            @else
+                            <div class="profile-image">
+                                <div id="profileImage" class="avatar-default">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </svg>
+                                </div>
+                            </div>
+                            @endif
                         </div>
 
                         <nav class="space-y-2 px-4">
-                            <a href="{{url('user/index')}}" class="block p-3 hover:bg-green-100 rounded-lg">Home</a>
+                            <a href="{{ route('user.dashboard') }}" class="block p-3 hover:bg-green-100 rounded-lg">Home</a>
                             <a href="" class="block p-3 hover:bg-green-100 rounded-lg">Deposit</a>
                             <a href="" class="block p-3 hover:bg-green-100 rounded-lg">Chat</a>
                             <a href="#" class="block p-3 hover:bg-green-100 rounded-lg">Sell</a>
@@ -200,7 +211,7 @@
                             <a href="#" class="block p-3 hover:bg-green-100 rounded-lg">Rent</a>
                             <a href="" class="block p-3 hover:bg-green-100 rounded-lg">Withdrawal</a>
                             <a href="" class="block p-3 hover:bg-green-100 rounded-lg">Complain</a>
-                            <a href="#" class="block p-3 bg-[#005B49] text-white rounded-lg">Profile</a>
+                            <a href="{{ route('profile.index') }}" class="block {{ Route::is('profile.index') ? 'bg-[#005B49] text-white' : '' }} p-3 rounded-lg">Profile</a>
                         </nav>
 
                         <!-- Quick Action Items - visible only on mobile -->
@@ -249,198 +260,7 @@
 
                     <!-- Profile Form -->
                     <div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
-                        <div class="p-6">
-                            <form id="profileForm" class="space-y-6">
-                                <!-- Profile Image Upload -->
-                                <div class="flex flex-col items-center space-y-4 mb-8">
-                                    <div class="avatar-upload">
-                                        <div class="avatar-edit">
-                                            <input type="file" id="profileImageUpload" accept="image/*" />
-                                            <label for="profileImageUpload">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                                    <polyline points="17 8 12 3 7 8"></polyline>
-                                                    <line x1="12" y1="3" x2="12" y2="15"></line>
-                                                </svg>
-                                            </label>
-                                        </div>
-                                        <div class="avatar-preview">
-                                            <div id="imagePreview" class="avatar-default">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                                    <circle cx="12" cy="7" r="4"></circle>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p class="text-sm text-gray-500">Click the icon to upload a profile picture</p>
-                                </div>
-
-                                <!-- Personal Information Section -->
-                                <div class="bg-gray-50 p-4 rounded-lg">
-                                    <h3 class="text-lg font-semibold text-[#005B49] mb-4">Personal Information</h3>
-
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <!-- Full Name -->
-                                        <div class="space-y-2">
-                                            <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
-                                            <input
-                                                type="text"
-                                                id="name"
-                                                name="name"
-                                                placeholder="Enter your full name"
-                                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#005B49] focus:border-[#005B49]"
-                                                required
-                                            >
-                                        </div>
-
-                                        <!-- Email -->
-                                        <div class="space-y-2">
-                                            <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
-                                            <input
-                                                type="email"
-                                                id="email"
-                                                name="email"
-                                                placeholder="Enter your email"
-                                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#005B49] focus:border-[#005B49]"
-                                                required
-                                            >
-                                        </div>
-
-                                        <!-- Phone Number -->
-                                        <div class="space-y-2">
-                                            <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
-                                            <input
-                                                type="tel"
-                                                id="phone"
-                                                name="phone"
-                                                placeholder="Enter your phone number"
-                                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#005B49] focus:border-[#005B49]"
-                                                required
-                                            >
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Location Section -->
-                                <div class="bg-gray-50 p-4 rounded-lg">
-                                    <h3 class="text-lg font-semibold text-[#005B49] mb-4">Location</h3>
-
-                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                        <!-- Country -->
-                                        <div class="space-y-2">
-                                            <label for="country" class="block text-sm font-medium text-gray-700">Country</label>
-                                            <select
-                                                id="country"
-                                                name="country"
-                                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#005B49] focus:border-[#005B49]"
-                                                required
-                                            >
-                                                <option value="" selected disabled>Select your country</option>
-                                                <option value="Nigeria">Nigeria</option>
-                                                <option value="Ghana">Ghana</option>
-                                                <option value="United States">United States</option>
-                                                <option value="United Kingdom">United Kingdom</option>
-                                                <option value="Canada">Canada</option>
-                                                <option value="Australia">Australia</option>
-                                            </select>
-                                        </div>
-
-                                        <!-- State/Province -->
-                                        <div class="space-y-2">
-                                            <label for="state" class="block text-sm font-medium text-gray-700">State/Province</label>
-                                            <select
-                                                id="state"
-                                                name="state"
-                                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#005B49] focus:border-[#005B49]"
-                                                disabled
-                                                required
-                                            >
-                                                <option value="" selected disabled>Select a country first</option>
-                                            </select>
-                                        </div>
-
-                                        <!-- City -->
-                                        <div class="space-y-2">
-                                            <label for="city" class="block text-sm font-medium text-gray-700">City</label>
-                                            <select
-                                                id="city"
-                                                name="city"
-                                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#005B49] focus:border-[#005B49]"
-                                                disabled
-                                                required
-                                            >
-                                                <option value="" selected disabled>Select a state first</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Business Account Section -->
-                                <div class="bg-gray-50 p-4 rounded-lg">
-                                    <div class="flex justify-between items-center mb-4">
-                                        <div>
-                                            <h3 class="text-lg font-semibold text-[#005B49]">Business Account</h3>
-                                            <p class="text-sm text-gray-600">Convert your personal account to a business account</p>
-                                        </div>
-                                        <label class="toggle-switch">
-                                            <input type="checkbox" id="businessAccountToggle">
-                                            <span class="toggle-slider"></span>
-                                        </label>
-                                    </div>
-
-                                    <div id="businessFields" class="hidden space-y-4">
-                                        <div class="space-y-2">
-                                            <label for="businessName" class="block text-sm font-medium text-gray-700">Business Name</label>
-                                            <input
-                                                type="text"
-                                                id="businessName"
-                                                name="businessName"
-                                                placeholder="Enter your business name"
-                                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#005B49] focus:border-[#005B49]"
-                                            >
-                                        </div>
-
-                                        <div class="space-y-2">
-                                            <label for="businessType" class="block text-sm font-medium text-gray-700">Business Type</label>
-                                            <select
-                                                id="businessType"
-                                                name="businessType"
-                                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#005B49] focus:border-[#005B49]"
-                                            >
-                                                <option value="" selected disabled>Select business type</option>
-                                                <option value="Retail">Retail</option>
-                                                <option value="Wholesale">Wholesale</option>
-                                                <option value="Manufacturing">Manufacturing</option>
-                                                <option value="Service">Service</option>
-                                                <option value="Other">Other</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="space-y-2">
-                                            <label for="taxId" class="block text-sm font-medium text-gray-700">Tax ID / Business Registration Number</label>
-                                            <input
-                                                type="text"
-                                                id="taxId"
-                                                name="taxId"
-                                                placeholder="Enter your tax ID or registration number"
-                                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#005B49] focus:border-[#005B49]"
-                                            >
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Submit Button -->
-                                <div class="flex justify-end">
-                                    <button
-                                        type="submit"
-                                        class="py-2 px-6 bg-[#005B49] text-white rounded-md hover:bg-[#004a3b] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#005B49]"
-                                    >
-                                        Save Changes
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+                        <livewire:user.profile.edit />
                     </div>
                 </div>
             </div>
@@ -539,126 +359,13 @@
             }
         });
 
-        // Location Data (in a real app, this would come from an API)
-        const locationData = {
-            countries: ["Nigeria", "Ghana", "United States", "United Kingdom", "Canada", "Australia"],
-            states: {
-                "Nigeria": ["Lagos", "Abuja", "Rivers", "Kano"],
-                "Ghana": ["Greater Accra", "Ashanti", "Western", "Eastern"],
-                "United States": ["California", "New York", "Texas", "Florida"],
-                "United Kingdom": ["England", "Scotland", "Wales", "Northern Ireland"],
-                "Canada": ["Ontario", "Quebec", "British Columbia", "Alberta"],
-                "Australia": ["New South Wales", "Victoria", "Queensland", "Western Australia"],
-                "default": ["State 1", "State 2", "State 3"]
-            },
-            cities: {
-                "Lagos": ["Ikeja", "Lekki", "Yaba", "Surulere"],
-                "Abuja": ["Central Area", "Garki", "Wuse", "Maitama"],
-                "California": ["Los Angeles", "San Francisco", "San Diego", "Sacramento"],
-                "New York": ["New York City", "Buffalo", "Rochester", "Syracuse"],
-                "England": ["London", "Manchester", "Birmingham", "Liverpool"],
-                "Ontario": ["Toronto", "Ottawa", "Mississauga", "Hamilton"],
-                "default": ["City 1", "City 2", "City 3", "City 4"]
-            }
-        };
-
-        // Country Change Handler
-        document.getElementById('country').addEventListener('change', function() {
-            const selectedCountry = this.value;
-            const stateSelect = document.getElementById('state');
-            const citySelect = document.getElementById('city');
-
-            // Reset state and city
-            stateSelect.innerHTML = '<option value="" selected disabled>Select your state</option>';
-            citySelect.innerHTML = '<option value="" selected disabled>Select a state first</option>';
-            citySelect.disabled = true;
-
-            // Enable state and populate options
-            stateSelect.disabled = false;
-
-            const states = locationData.states[selectedCountry] || locationData.states.default;
-            states.forEach(state => {
-                const option = document.createElement('option');
-                option.value = state;
-                option.textContent = state;
-                stateSelect.appendChild(option);
-            });
-        });
-
-        // State Change Handler
-        document.getElementById('state').addEventListener('change', function() {
-            const selectedState = this.value;
-            const citySelect = document.getElementById('city');
-
-            // Reset city
-            citySelect.innerHTML = '<option value="" selected disabled>Select your city</option>';
-
-            // Enable city and populate options
-            citySelect.disabled = false;
-
-            const cities = locationData.cities[selectedState] || locationData.cities.default;
-            cities.forEach(city => {
-                const option = document.createElement('option');
-                option.value = city;
-                option.textContent = city;
-                citySelect.appendChild(option);
-            });
-        });
+        
 
         // Business Account Toggle
-        document.getElementById('businessAccountToggle').addEventListener('change', function() {
-            const businessFields = document.getElementById('businessFields');
-            if (this.checked) {
-                businessFields.classList.remove('hidden');
-            } else {
-                businessFields.classList.add('hidden');
-            }
-        });
+        
 
         // Form Submission
-        document.getElementById('profileForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            // Get form values
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const country = document.getElementById('country').value;
-            const state = document.getElementById('state').value;
-            const city = document.getElementById('city').value;
-            const imageFile = document.getElementById('profileImageUpload').files[0];
-
-            // Business account data
-            const isBusinessAccount = document.getElementById('businessAccountToggle').checked;
-            let businessData = null;
-
-            if (isBusinessAccount) {
-                businessData = {
-                    businessName: document.getElementById('businessName').value,
-                    businessType: document.getElementById('businessType').value,
-                    taxId: document.getElementById('taxId').value
-                };
-            }
-
-            // In a real app, you would send this data to your server
-            console.log('Form submitted with:', {
-                name,
-                email,
-                phone,
-                country,
-                state,
-                city,
-                imageFile: imageFile ? imageFile.name : null,
-                isBusinessAccount,
-                businessData
-            });
-
-            // Show success message
-            alert('Profile updated successfully!');
-
-            // In a real app, you might redirect the user
-            // window.location.href = '/dashboard';
-        });
+        
     </script>
 </body>
 </html>

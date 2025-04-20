@@ -60,8 +60,8 @@
         <div class="text-white">
             <p class="text-sm">Wallet</p>
             <p class="text-2xl font-bold">
-                <span id="currencySymbol">N</span>
-                <span id="currentBalance">20,000</span>
+                <span id="" style="text-transform: uppercase">{{ Auth::user()->currency }}</span>
+                <span id="currentBalance">{{ Auth::user()->balance }}</span>
             </p>
         </div>
 
@@ -87,13 +87,24 @@
                     <div class="flex-grow overflow-y-auto">
                         <!-- User Profile -->
                         <div class="flex flex-col items-center my-6">
+                            @if(Auth::user()->image)
                             <div class="w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-lg">
-                                <img src="/placeholder.svg?height=80&width=80" alt="Profile" class="w-full h-full object-cover" />
+                                <img src="{{ asset('storage/'.Auth::user()->image) }}" alt="Profile" class="w-full h-full object-cover" />
                             </div>
+                            @else
+                            <div class="profile-image">
+                                <div id="profileImage" class="avatar-default">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </svg>
+                                </div>
+                            </div>
+                            @endif
                         </div>
 
                         <nav class="space-y-2 px-4">
-                            <a href="{{url('user/index')}}" class="block p-3 bg-[#005B49] text-white rounded-lg">Home</a>
+                            <a href="{{ route('user.dashboard') }}" class="block p-3 bg-[#005B49] text-white rounded-lg">Home</a>
                             <a href="" class="block p-3 hover:bg-green-100 rounded-lg">Deposit</a>
                             <a href="" class="block p-3 hover:bg-green-100 rounded-lg">Chat</a>
                             <a href="#" class="block p-3 hover:bg-green-100 rounded-lg">Sell</a>
@@ -103,7 +114,7 @@
                             <a href="#" class="block p-3 hover:bg-green-100 rounded-lg">Rent</a>
                             <a href="" class="block p-3 hover:bg-green-100 rounded-lg">Withdrawal</a>
                             <a href="" class="block p-3 hover:bg-green-100 rounded-lg">Complain</a>
-                            <a href="#" class="block p-3 hover:bg-green-100 rounded-lg">Setting</a>
+                            <a href="{{ route('profile.index') }}" class="block p-3 hover:bg-green-100 rounded-lg">Profile</a>
                         </nav>
 
                         <!-- Quick Action Items - visible only on mobile -->

@@ -15,7 +15,7 @@
             <div class="p-6 text-center">
                 <h3 class="text-lg font-semibold text-[#005B49] mb-4">What would you like to do next?</h3>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="{{route('user.profile')}}" class="py-2 px-6 bg-[#005B49] text-white rounded-md hover:bg-[#004a3b] inline-block">
+                    <a href="{{route('user.dashboard')}}" class="py-2 px-6 bg-[#005B49] text-white rounded-md hover:bg-[#004a3b] inline-block">
                         Visit Profile
                     </a>
                     <a href="{{route('home')}}" class="py-2 px-6 bg-white border border-[#005B49] text-[#005B49] rounded-md hover:bg-gray-50 inline-block">

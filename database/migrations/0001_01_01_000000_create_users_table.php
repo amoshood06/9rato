@@ -13,10 +13,21 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
+            $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('phone')->nullable();
+            $table->string('country')->nullable();
+            $table->string('state')->nullable();
+            $table->string('city')->nullable();
+            $table->enum('account_type', ['personal', 'business'])->default('personal');
+            $table->string('image')->nullable();
+            $table->string('business_name')->nullable();
+            $table->string('business_type')->nullable();
+            $table->string('business_reg_no')->nullable();
+            $table->string('currency')->default('ngn');
+            $table->decimal('balance', 15, 2)->default(0.00);
             $table->string('otp')->nullable();
             $table->timestamp('otp_expires_at')->nullable();
             $table->timestamp('otp_verified_at')->nullable();
