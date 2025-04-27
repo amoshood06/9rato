@@ -29,8 +29,13 @@ Route::group(['middleware' => 'auth'], function(){
         Route::get('profile/settings', [ProfileController::class, 'view_profile'])->name('profile.index');
         Route::get('profile/edit', [ProfileController::class, 'edit_profile'])->name('profile.edit');
         Route::get('/wallet', [WalletController::class, 'index'])->name('user.wallet');
+        Route::post('/fund-wallet', [WalletController::class, 'fundWallet'])->name('wallet.fund');
+        Route::post('/fund-withdrawal', [WalletController::class, 'withdraw'])->name('wallet.withdraw');
     });
 });
+
+Route::get('/fund-wallet-callback', [WalletController::class, 'fundWalletCallback'])->name('wallet.fund.callback');
+Route::get('/withdraw-callback', [WalletController::class, 'withdrawCallback'])->name('withdraw.callback');
 
 
 Route::get('user/product/index', function () {

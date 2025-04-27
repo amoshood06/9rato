@@ -99,7 +99,7 @@
         <p class="text-sm">Wallet</p>
         <p class="text-2xl font-bold">
             <span id="currencySymbol">N</span>
-            <span id="currentBalance">20,000</span>
+            <span id="currentBalance">{{ number_format(Auth::user()->balance, 2) }}</span>
         </p>
     </div>
 
@@ -191,12 +191,14 @@
                     <p class="text-gray-600">Manage your funds, make deposits and withdrawals</p>
                 </div>
 
+                <x-error-message />
+                <x-success-message />
                 <!-- Wallet Balance Card -->
                 <div class="bg-[#005B49] text-white rounded-lg shadow-md p-6 mb-6">
                     <div class="flex justify-between items-center">
                         <div>
                             <p class="text-sm opacity-80">Available Balance</p>
-                            <p class="text-3xl font-bold mt-1">N 20,000.00</p>
+                            <p class="text-3xl font-bold mt-1">N {{ number_format(Auth::user()->balance, 2) }}</p>
                         </div>
                         <div class="bg-white/20 p-3 rounded-full">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -222,180 +224,15 @@
                 </div>
 
                 <!-- Deposit Section -->
-                <div id="depositSection" class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
-                    <div class="p-6">
-                        <h3 class="text-lg font-semibold text-[#005B49] mb-4">Deposit Funds</h3>
-
-                        <form id="depositForm" class="space-y-6">
-                            <!-- Amount -->
-                            <div class="space-y-2">
-                                <label for="depositAmount" class="block text-sm font-medium text-gray-700">Amount (NGN)</label>
-                                <div class="relative">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-500">N</span>
-                                    </div>
-                                    <input
-                                        type="number"
-                                        id="depositAmount"
-                                        name="depositAmount"
-                                        placeholder="0.00"
-                                        min="100"
-                                        class="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#005B49] focus:border-[#005B49]"
-                                        required
-                                    >
-                                </div>
-                                <p class="text-xs text-gray-500">Minimum deposit: N100</p>
-                            </div>
-
-                            <!-- Payment Method -->
-                            <div class="space-y-2">
-                                <label class="block text-sm font-medium text-gray-700">Payment Method</label>
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                    <div class="payment-method rounded-lg p-4 cursor-pointer" data-method="card">
-                                        <div class="flex items-center space-x-3">
-                                            <div class="bg-gray-100 p-2 rounded-full">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                                                </svg>
-                                            </div>
-                                            <div>
-                                                <p class="font-medium">Card</p>
-                                                <p class="text-xs text-gray-500">Visa, Mastercard</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="payment-method rounded-lg p-4 cursor-pointer" data-method="bank">
-                                        <div class="flex items-center space-x-3">
-                                            <div class="bg-gray-100 p-2 rounded-full">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
-                                                </svg>
-                                            </div>
-                                            <div>
-                                                <p class="font-medium">Bank Transfer</p>
-                                                <p class="text-xs text-gray-500">Direct deposit</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="payment-method rounded-lg p-4 cursor-pointer" data-method="ussd">
-                                        <div class="flex items-center space-x-3">
-                                            <div class="bg-gray-100 p-2 rounded-full">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                                                </svg>
-                                            </div>
-                                            <div>
-                                                <p class="font-medium">USSD</p>
-                                                <p class="text-xs text-gray-500">Mobile banking</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <input type="hidden" id="paymentMethod" name="paymentMethod" value="">
-                            </div>
-
-                            <!-- Card Details (shown conditionally) -->
-                            <div id="cardDetails" class="space-y-4 hidden">
-                                <div class="space-y-2">
-                                    <label for="cardNumber" class="block text-sm font-medium text-gray-700">Card Number</label>
-                                    <input
-                                        type="text"
-                                        id="cardNumber"
-                                        name="cardNumber"
-                                        placeholder="1234 5678 9012 3456"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#005B49] focus:border-[#005B49]"
-                                    >
-                                </div>
-
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div class="space-y-2">
-                                        <label for="expiryDate" class="block text-sm font-medium text-gray-700">Expiry Date</label>
-                                        <input
-                                            type="text"
-                                            id="expiryDate"
-                                            name="expiryDate"
-                                            placeholder="MM/YY"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#005B49] focus:border-[#005B49]"
-                                        >
-                                    </div>
-
-                                    <div class="space-y-2">
-                                        <label for="cvv" class="block text-sm font-medium text-gray-700">CVV</label>
-                                        <input
-                                            type="text"
-                                            id="cvv"
-                                            name="cvv"
-                                            placeholder="123"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#005B49] focus:border-[#005B49]"
-                                        >
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Bank Transfer Details (shown conditionally) -->
-                            <div id="bankDetails" class="space-y-4 hidden">
-                                <div class="bg-gray-50 p-4 rounded-lg">
-                                    <h4 class="font-medium text-gray-700 mb-2">Bank Transfer Details</h4>
-                                    <p class="text-sm text-gray-600 mb-1">Bank: First Bank</p>
-                                    <p class="text-sm text-gray-600 mb-1">Account Number: 1234567890</p>
-                                    <p class="text-sm text-gray-600 mb-1">Account Name: 9RATO LTD</p>
-                                    <p class="text-sm text-gray-600 mt-3">Please use your email as reference when making the transfer.</p>
-                                </div>
-
-                                <div class="space-y-2">
-                                    <label for="transferReference" class="block text-sm font-medium text-gray-700">Transfer Reference</label>
-                                    <input
-                                        type="text"
-                                        id="transferReference"
-                                        name="transferReference"
-                                        placeholder="Enter your transfer reference"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#005B49] focus:border-[#005B49]"
-                                    >
-                                </div>
-                            </div>
-
-                            <!-- USSD Details (shown conditionally) -->
-                            <div id="ussdDetails" class="space-y-4 hidden">
-                                <div class="bg-gray-50 p-4 rounded-lg">
-                                    <h4 class="font-medium text-gray-700 mb-2">USSD Instructions</h4>
-                                    <p class="text-sm text-gray-600 mb-2">1. Dial *737*000*AMOUNT# on your mobile phone</p>
-                                    <p class="text-sm text-gray-600 mb-2">2. Follow the prompts to complete the transaction</p>
-                                    <p class="text-sm text-gray-600 mb-2">3. Enter the reference code provided after the transaction</p>
-                                </div>
-
-                                <div class="space-y-2">
-                                    <label for="ussdReference" class="block text-sm font-medium text-gray-700">USSD Reference</label>
-                                    <input
-                                        type="text"
-                                        id="ussdReference"
-                                        name="ussdReference"
-                                        placeholder="Enter the reference code"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#005B49] focus:border-[#005B49]"
-                                    >
-                                </div>
-                            </div>
-
-                            <!-- Submit Button -->
-                            <div class="flex justify-end">
-                                <button
-                                    type="submit"
-                                    class="py-2 px-6 bg-[#005B49] text-white rounded-md hover:bg-[#004a3b] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#005B49]"
-                                >
-                                    Proceed to Deposit
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                <livewire:user.wallet.deposit />
 
                 <!-- Withdraw Section -->
                 <div id="withdrawSection" class="bg-white rounded-lg shadow-md overflow-hidden mb-6 hidden">
                     <div class="p-6">
                         <h3 class="text-lg font-semibold text-[#005B49] mb-4">Withdraw Funds</h3>
 
-                        <form id="withdrawForm" class="space-y-6">
+                        <form action="{{ route('wallet.withdraw') }}" method="post" class="space-y-6">
+                            @csrf
                             <!-- Amount -->
                             <div class="space-y-2">
                                 <label for="withdrawAmount" class="block text-sm font-medium text-gray-700">Amount (NGN)</label>
@@ -416,25 +253,8 @@
                                 </div>
                                 <p class="text-xs text-gray-500">Minimum withdrawal: N500 | Maximum: N20,000</p>
                             </div>
-
-                            <!-- Bank Account -->
-                            <div class="space-y-2">
-                                <label for="bankAccount" class="block text-sm font-medium text-gray-700">Select Bank Account</label>
-                                <select
-                                    id="bankAccount"
-                                    name="bankAccount"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#005B49] focus:border-[#005B49]"
-                                    required
-                                >
-                                    <option value="" selected disabled>Select your bank account</option>
-                                    <option value="account1">First Bank - 1234567890</option>
-                                    <option value="account2">GTBank - 0987654321</option>
-                                    <option value="newAccount">+ Add New Bank Account</option>
-                                </select>
-                            </div>
-
                             <!-- New Bank Account Details (shown conditionally) -->
-                            <div id="newBankDetails" class="space-y-4 hidden">
+                            <div id="newBankDetails" class="space-y-4">
                                 <div class="space-y-2">
                                     <label for="bankName" class="block text-sm font-medium text-gray-700">Bank Name</label>
                                     <select
@@ -442,12 +262,15 @@
                                         name="bankName"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#005B49] focus:border-[#005B49]"
                                     >
-                                        <option value="" selected disabled>Select bank</option>
-                                        <option value="firstbank">First Bank</option>
-                                        <option value="gtbank">GTBank</option>
-                                        <option value="zenithbank">Zenith Bank</option>
-                                        <option value="accessbank">Access Bank</option>
-                                        <option value="uba">UBA</option>
+                                    <option value="" selected disabled>Select bank</option>
+                                    <option value="011">First Bank</option>
+                                    <option value="058">GTBank</option>
+                                    <option value="057">Zenith Bank</option>
+                                    <option value="044">Access Bank</option>
+                                    <option value="033">UBA</option>
+                                    <option value="50126">Kuda Bank</option>
+                                    <option value="301">Opay</option>
+                                    <option value="302">Moniepoint</option>
                                     </select>
                                 </div>
 
@@ -530,57 +353,29 @@
 
                         <div class="space-y-4">
                             <!-- Transaction Items -->
-                            <div class="transaction-item transaction-deposit bg-gray-50 p-4 rounded-lg">
-                                <div class="flex justify-between items-center">
-                                    <div>
-                                        <p class="font-medium">Deposit</p>
-                                        <p class="text-xs text-gray-500">Apr 5, 2025 • 10:30 AM</p>
-                                    </div>
-                                    <div class="text-right">
-                                        <p class="font-medium text-green-600">+N 5,000.00</p>
-                                        <p class="text-xs text-gray-500">Card Payment</p>
-                                    </div>
-                                </div>
-                            </div>
+                            @foreach(Auth::user()->transactions as $transaction)
+                                <div class="transaction-item transaction-{{ $transaction->type === 'deposit' ? 'deposit' : 'withdrawal' }} bg-gray-50 p-4 rounded-lg">
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <p class="font-medium">{{ ucfirst($transaction->type) }} {{ $transaction->status === 'completed' ? '(Completed)' : ($transaction->status === 'pending' ? '(Pending)' : '(Failed)')  }}</p>
+                                            <p class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($transaction->created_at)->format('M d, Y • h:i A') }}</p>
+                                        </div>
+                                        <div class="text-right">
+                                            @if($transaction->type === 'deposit')
+                                                <p class="font-medium text-{{ $transaction->status === 'completed' ? 'green' : ($transaction->status === 'pending' ? 'yellow' : 'red') }}-600">+N {{ number_format($transaction->amount, 2) }}</p>
+                                            @else
+                                                <p class="font-medium text-{{ $transaction->status === 'completed' ? 'green' : ($transaction->status === 'pending' ? 'yellow' : 'red') }}-600">+N {{ number_format($transaction->amount, 2) }}</p>
+                                            @endif
 
-                            <div class="transaction-item transaction-withdrawal bg-gray-50 p-4 rounded-lg">
-                                <div class="flex justify-between items-center">
-                                    <div>
-                                        <p class="font-medium">Withdrawal</p>
-                                        <p class="text-xs text-gray-500">Apr 3, 2025 • 2:15 PM</p>
-                                    </div>
-                                    <div class="text-right">
-                                        <p class="font-medium text-red-600">-N 2,000.00</p>
-                                        <p class="text-xs text-gray-500">GTBank - 0987654321</p>
+                                            @if($transaction->type === 'deposit')
+                                                <p class="text-xs text-gray-500">{{ ucfirst($transaction->payment_type ?? "Payment Not Completed" )}}</p>
+                                            @else
+                                                <p class="text-xs text-gray-500">{{ ucfirst($transaction->bank_name . '-'. $transaction->account_number )}}</p>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="transaction-item transaction-deposit bg-gray-50 p-4 rounded-lg">
-                                <div class="flex justify-between items-center">
-                                    <div>
-                                        <p class="font-medium">Deposit</p>
-                                        <p class="text-xs text-gray-500">Apr 1, 2025 • 9:45 AM</p>
-                                    </div>
-                                    <div class="text-right">
-                                        <p class="font-medium text-green-600">+N 10,000.00</p>
-                                        <p class="text-xs text-gray-500">Bank Transfer</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="transaction-item transaction-pending bg-gray-50 p-4 rounded-lg">
-                                <div class="flex justify-between items-center">
-                                    <div>
-                                        <p class="font-medium">Deposit (Pending)</p>
-                                        <p class="text-xs text-gray-500">Mar 28, 2025 • 4:20 PM</p>
-                                    </div>
-                                    <div class="text-right">
-                                        <p class="font-medium text-yellow-600">+N 7,000.00</p>
-                                        <p class="text-xs text-gray-500">USSD Payment</p>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
 
                         <!-- Load More Button -->

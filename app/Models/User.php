@@ -55,4 +55,9 @@ class User extends Authenticatable
             'otp_expires_at' => 'datetime',
         ];
     }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class)->orderBY('created_at', 'DESC');
+    }
 }

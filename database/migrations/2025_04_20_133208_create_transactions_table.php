@@ -15,15 +15,18 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $table->string('reference')->unique();
+            $table->string('transaction_id')->unique()->nullable();
+            $table->string('payment_type')->nullable();
             $table->enum('type', ['deposit', 'withdraw']);
             $table->decimal('amount', 10, 2);
+            $table->decimal('fees', 10, 2)->default(0);
             $table->enum('status', ['pending', 'completed', 'failed']);
-            $table->enum('method', ['card', 'bank_transfer', 'ussd']);
+            $table->string('currency', 3)->default('NGN');
             $table->string('bank_name')->nullable();
             $table->string('account_number')->nullable();
             $table->string('account_name')->nullable();
-            $table->string('reference')->nullable();
-            $table->text('note')->nullable();
+            $table->string('channel')->nullable();
             $table->timestamps();
         });
     }
